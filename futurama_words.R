@@ -1,8 +1,10 @@
-require(rvest)
-require(stringr)
-require(dplyr)
-require(SnowballC)
-require(tm)
+library(rvest)
+library(stringr)
+library(dplyr)
+library(SnowballC)
+library(tm)
+library(DT)
+library(htmlwidgets)
 
 
 #####################################
@@ -91,5 +93,18 @@ for (i in 1:length(mychars)){
          %>% DocumentTermMatrix()
   )
   Frequency <- colSums(as.matrix(get(paste0(mychars[i], '_done'))))
-  assign(b, data.frame(Word=names(Frequency), Frequency=Frequency))
+  assign(b, data.frame(Character=mychars[i], Rank=rank(Frequency), Word=names(Frequency), Frequency=Frequency))
 }
+
+wordsByCharacter <- data.frame(matrix(nrow=1, ncol=4))
+colnames(wordsByCharacter) <- c('Character', 'Rank', 'Word', 'Frequency')
+
+for (i in 1:length(mychars)){
+  CharTop10 <- head(get(paste0(mychars[i], '_done'))[order(get(paste0(mychars[i], '_done'))$Rank, decreasing = F), ], n = 10)
+  wordsByCharacter <- rbind(wordsByCharacter, CharTop10)
+}  
+
+
+mydt <- datatable(wordsByCharacter, filter='top', options=list(pageLength=11, autoWidth=T), rownames=F)
+
+saveWidget(mydt, 'Futurama_words_by_character.html')
