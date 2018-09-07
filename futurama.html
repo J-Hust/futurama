@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="./styles.css"></script>
+</head>
+
+<body>
+  <script>
+    d3.csv('words.csv', data => {
+      console.log(typeof data)
+    })
+  </script>
+</body>
