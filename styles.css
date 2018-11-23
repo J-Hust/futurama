@@ -19,21 +19,16 @@ th {
 
 }
 
-body {
-  margin: 0px;
-  min-height: 100%;
-  width: 100%;
-  background-image: linear-gradient(#eb5f10, #d51005);
-}
-
-html {
+body, html {
   margin: 0px;
   height: 100%;
   width: 100%;
+  background-image: linear-gradient(#eb5f10, #d51005);
+  font-size: 16px
 }
 
 #main {
-  width:800px;
+  width:  800px;
   margin: 0 auto;
 }
 
@@ -41,23 +36,27 @@ html {
   display: inline-block;
 }
 
+#heading {
+  text-align: center;
+  vertical-align: center;
+}
+
 #words {
   display: inline-block;
-  font-size: 36px;
+  font-size: 2rem;
   color: white;
   font-family: Arial, sans-serif;
 }
 
-#nameDropdown {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 #dropdowns {
   width:800px;
-  /* margin: 0 auto; */
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;  /* margin-left: auto;
+  margin-right: auto; */
+}
+
+#nameDropdown, #mostDropdown {
+  margin: 0 auto;
+  display: inline-block;
 }
 
 
@@ -65,6 +64,7 @@ html {
 .wordart {
   margin: 20px;
   padding-left: 15px;
+  padding-bottom: 10px;
   font-family: Arial, sans-serif;
   font-size: 44px;
   font-weight: bold;

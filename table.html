@@ -9,7 +9,6 @@
     <!-- <script src="d3.min.js?v=3.2.8"></script> -->
     <div id="main">
       <div id="heading">
-        <!-- text is in the way... -->
         <div class="wordart tilt">
           <span class="text">
             Bender's <br />
@@ -23,9 +22,9 @@
           Uttered Words
         </div>
         <br />
-        <div id="dropdowns">
-          <span id="nameDropdown"></span> <span id="mostDropdown"></span>
-        </div>
+      </div>
+      <div id="dropdowns">
+        <span id="nameDropdown"></span> <span id="mostDropdown"></span>
       </div>
     </div>
 
@@ -57,8 +56,7 @@
       let updateTable = (data, person = 'Bender', ml) => {
         const columns = ['word', 'count'];
         let myTable = d3.select('#viz');
-        let firstIndex = data
-          .map(el => {return el.character;}).indexOf(person);
+        let firstIndex = data.map(el => {return el.character;}).indexOf(person);
 
         let start = ml === 'Most' ? firstIndex : firstIndex + 10;
         let newData = data.slice(start, start + 10);
@@ -80,15 +78,14 @@
 
         let nd = d3.select('.text')
 
-        let hello = person;
-        console.log('h', hello)
+        let hello = [person];
 
-        console.log('person', person)
 
         nd
         .data(hello)
-        .html((d) => {console.log(d.length)
-          return d + "'s <br /> Top <br /> Ten"})
+        .html((d) => {
+          return d + "'s <br /> Top <br /> Ten"
+        })
 
         rows.enter().append('tr');
         rows.exit().remove();
