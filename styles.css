@@ -1,23 +1,4 @@
-table,
-tr,
-td {
-  color: white;
-  font-size: 1.5rem;
-  padding: 0.7rem;
-  font-family: Arial, sans-serif;
-}
-
-table {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-th {
-  text-align: left;
-  font-weight: bold;
-  font-size: 2rem;
-
-}
+/*_________Global Elements________*/
 
 body, html {
   margin: 0;
@@ -26,15 +7,32 @@ body, html {
   width: 100%;
   background-image: linear-gradient(#eb5f10, #d51005);
   font-size: 16px;
+  font-family: Arial, sans-serif;
 }
+
+table,
+tr,
+td {
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+table {
+  margin: 0 auto;
+}
+
+th {
+  text-align: left;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+/*_______End Global Elements________*/
 
 #main {
   width:  50rem;
   margin: 0 auto;
-}
-
-#char {
-  display: inline-block;
 }
 
 #heading {
@@ -46,43 +44,35 @@ body, html {
 
 #words {
   display: flex;
-  font-size: 2rem;
-  color: white;
-  font-family: Arial, sans-serif;
-  width: 25rem;
-  height: 12.5rem;
   justify-content: center;
   align-items: center;
+  font-size: 2rem;
+  color: white;
+  width: 25rem;
+  height: 12.5rem;
 }
 
 #dropdowns {
-  margin: 0 auto;
   text-align: center;
-   /* margin-left: auto;
-  margin-right: auto; */
 }
 
 #nameDropdown, #mostDropdown {
-  margin: 0 auto;
   display: inline-block;
   text-align: center;
 }
 
 #nameSelect, #mostSelect {
-  background-color: black;
-  border: 0.2rem solid black;
-  border-radius: 0.3rem;
   width: 8rem;
   height: 2rem;
-  color: #FFF;
+  color: #eb5f10;
   text-align: center;
-  font-weight: bold;
+  font-weight: lighter;
 }
 #nameSelect:hover, #mostSelect:hover {
-  background-color: green;
+  font-weight: bold;
 }
 
-
+/* _____WORD ART_____ */
 
 /* from https://www.designpieces.com/2017/03/wordart-css3-text-effects/ */
 .wordart {

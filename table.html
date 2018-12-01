@@ -162,7 +162,8 @@
           })
           .property('value', d => {
             return d;
-          });
+          })
+          .property('selected', (d) => {return d === 'Bender'});
         return select;
       };
 
