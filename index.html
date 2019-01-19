@@ -1,184 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <script src="http://d3js.org/d3.v5.min.js"></script>
-    <link href="./styles.css" type="text/css" rel="stylesheet" />
-    <!-- <script src="d3.min.js?v=3.2.8"></script> -->
-    <div id="main">
-      <div id="heading">
-        <div class="wordart tilt">
-          <span class="text">
-            Bender's <br />
-            Top <br />
-            Ten
-          </span>
-        </div>
 
-        <div id="words">
-          <div id="words2">
-          Most Frequently <br />
-          Uttered Words
+<head>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link href="./styles.css" type="text/css" rel="stylesheet" />
+    <div id="main">
+        <div id="heading">
+            <div class="wordart tilt">
+                <span class="text">
+                    Bender's <br />
+                    Top <br />
+                    Ten
+                </span>
+            </div>
+
+            <div id="words">
+                <div id="words2">
+                    Most Frequently <br />
+                    Uttered Words
+                </div>
+            </div>
+            <br />
         </div>
+        <div id="dropdowns">
+            <span id="nameDropdown"></span> <span id="mostDropdown"></span>
         </div>
-        <br />
-      </div>
-      <div id="dropdowns">
-        <span id="nameDropdown"></span> <span id="mostDropdown"></span>
-      </div>
     </div>
 
     <script type="text/javascript" charset="utf-8">
-      let createTable = data => {
-        const columns = ['word', 'count'];
-        let table = d3.select('body').append('table');
-        let thead = table.append('thead');
-        let tbody = table.append('tbody');
+        let createTable = data => {
+            const columns = ['word', 'count'];
+            let table = d3.select('body').append('table');
+            let thead = table.append('thead');
+            let tbody = table.append('tbody');
 
-        thead
-          .append('tr')
-          .selectAll('th')
-          .data(columns)
-          .enter()
-          .append('th')
-          .text(d => {
-            return d;
-          });
+            thead
+                .append('tr')
+                .selectAll('th')
+                .data(columns)
+                .enter()
+                .append('th')
+                .text(d => { return d; });
 
-        // Doesn't load properly until 3 data updates for some reason -_-
-        updateTable(data, 'Bender', 'Most');
-        updateTable(data, 'Bender', 'Most');
-        updateTable(data, 'Bender', 'Most');
+            // Doesn't load properly until 3 data updates for some reason -_-
+            updateTable(data, 'Bender', 'Most');
+            updateTable(data, 'Bender', 'Most');
+            updateTable(data, 'Bender', 'Most');
 
-        return table;
-      };
+            return table;
+        };
 
-      let updateTable = (data, person = 'Bender', ml) => {
-        const columns = ['word', 'count'];
-        let myTable = d3.select('#viz');
-        let firstIndex = data.map(el => {return el.character;}).indexOf(person);
+        let updateTable = (data, person = 'Bender', ml) => {
+            const columns = ['word', 'count'];
+            let myTable = d3.select('#viz');
+            let firstIndex = data.map(el => { return el.character; }).indexOf(person);
 
-        let start = ml === 'Most' ? firstIndex : firstIndex + 10;
-        let newData = data.slice(start, start + 10);
+            let start = ml === 'Most' ? firstIndex : firstIndex + 10;
+            let newData = data.slice(start, start + 10);
 
-        myTable.attr('class', person);
+            myTable.attr('class', person);
 
-        let rows = d3.select('tbody')
-          .selectAll('tr')
-          .data(newData);
+            let rows = d3.select('tbody')
+                .selectAll('tr')
+                .data(newData);
 
-        let cells = rows.selectAll('td')
-          .data(row => {
-            return columns.map(column => {
-              return { column: column, value: row[column] };
+            let cells = rows.selectAll('td')
+                .data(row => {
+                    return columns.map(column => {
+                        return { column: column, value: row[column] };
+                    });
+                })
+                .text(d => { return d.value; });
+
+
+            let nd = d3.select('.text')
+
+            let hello = [person];
+
+
+            nd
+                .data(hello)
+                .html((d) => { return d + "'s <br /> Top <br /> Ten" })
+
+            let mlText = d3.select('#words2')
+            let mlSelection = [ml]
+            mlText
+                .data(mlSelection)
+                .html(d => { return mlSelection + " Frequently <br /> Uttered Words" })
+
+            rows.enter().append('tr');
+            rows.exit().remove();
+            cells.enter().append('td');
+            cells.exit().remove();
+
+            return myTable;
+        };
+
+        let mostSelect = data => {
+            const ml = ['Most', 'Least'];
+
+            let select = d3
+                .select('#mostDropdown')
+                .append('select')
+                .attr('id', 'mostSelect')
+                .on('change', () => {
+                    updateTable(
+                        data,
+                        document.getElementById('nameSelect').value,
+                        document.getElementById('mostSelect').value
+                    );
+                });
+
+            let options = select
+                .selectAll('option')
+                .data(ml)
+                .enter()
+                .append('option')
+                .text(d => { return d; })
+                .attr('value', d => { return d; });
+        };
+
+        let populateCharacters = data => {
+            let chars = [];
+
+            data.forEach(el => {
+                if (!chars.includes(el.character)) {
+                    chars.push(el.character);
+                }
             });
-          })
-          .text(d => {return d.value;});
+            return chars.sort()
+        };
 
+        let nameSelect = data => {
+            let names = populateCharacters(data);
+            let select = d3
+                .select('#nameDropdown')
+                .append('select')
+                .attr('id', 'nameSelect')
+                .on('change', () => {
+                    updateTable(
+                        data,
+                        document.getElementById('nameSelect').value,
+                        document.getElementById('mostSelect').value
+                    );
+                })
+                .property('selected', d => { return d === 'Bender'; });
 
-        let nd = d3.select('.text')
+            let options = select
+                .selectAll('option')
+                .data(names)
+                .enter()
+                .append('option')
+                .text(d => { return d; })
+                .property('value', d => { return d; })
+                .property('selected', (d) => { return d === 'Bender' });
+            return select;
+        };
 
-        let hello = [person];
-
-
-        nd
-        .data(hello)
-        .html((d) => {
-          return d + "'s <br /> Top <br /> Ten"
-        })
-
-        let mlText = d3.select('#words2')
-        let mlSelection = [ml]
-        mlText.data(mlSelection).html(d => {
-          return mlSelection + " Frequently <br /> Uttered Words"
-        })
-
-        rows.enter().append('tr');
-        rows.exit().remove();
-        cells.enter().append('td');
-        cells.exit().remove();
-
-        return myTable;
-      };
-
-      let mostSelect = data => {
-        const ml = ['Most', 'Least'];
-
-        let select = d3
-          .select('#mostDropdown')
-          .append('select')
-          .attr('id', 'mostSelect')
-          .on('change', () => {
-            updateTable(
-              data,
-              document.getElementById('nameSelect').value,
-              document.getElementById('mostSelect').value
-            );
-          });
-
-        let options = select
-          .selectAll('option')
-          .data(ml)
-          .enter()
-          .append('option')
-          .text(d => {
-            return d;
-          })
-          .attr('value', d => {
-            return d;
-          });
-      };
-
-      let populateCharacters = data => {
-        let chars = [];
-
-        data.forEach(el => {
-          if (!chars.includes(el.character)) {
-            chars.push(el.character);
-          }
+        d3.csv('words.csv').then(data => {
+            createTable(data);
+            nameSelect(data);
+            mostSelect(data);
         });
-        return chars.sort()
-      };
-
-      let nameSelect = data => {
-        let names = populateCharacters(data);
-        let select = d3
-          .select('#nameDropdown')
-          .append('select')
-          .attr('id', 'nameSelect')
-          .on('change', () => {
-            updateTable(
-              data,
-              document.getElementById('nameSelect').value,
-              document.getElementById('mostSelect').value
-            );
-          })
-          .property('selected', d => {
-            return d === 'Bender';
-          });
-
-        let options = select
-          .selectAll('option')
-          .data(names)
-          .enter()
-          .append('option')
-          .text(d => {
-            return d;
-          })
-          .property('value', d => {
-            return d;
-          })
-          .property('selected', (d) => {return d === 'Bender'});
-        return select;
-      };
-
-      d3.csv('words.csv').then(data => {
-        createTable(data);
-        nameSelect(data);
-        mostSelect(data);
-      });
     </script>
-  </body>
+</body>
+
 </html>
